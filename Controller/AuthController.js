@@ -1,4 +1,4 @@
-const { generateOTP } = require("../Helper/generateOTP");
+const { generateOTP } = require("../Helper/GenerateOTP");
 const { success } = require("../Helper/Response");
 const { STUDENT } = require("../Helper/Role_Constant");
 const Users = require("../Model/User");
