@@ -77,9 +77,13 @@ exports.login = async (req, res, next) => {
 exports.verifyUser = async (req, res, next) => {
     try {
         const {userId} = req.params;
-        const user = await Users.findOne({ _id:userId });
-        if (!user) {
-            return res.status(400).json({ error: true, message: "Invalide UserId" });
+        const {code} = req.body;
+        if(!userId || !code){
+            return res.status(400).json({ error: true, message: "Invalide" });
+        }
+        const verificationCode = await VerificationCode.findOne({user:userId});
+        if(verificationCode.code !== code){
+            return res.status(400).json({ error: true, message: "Invalide Verification Code" });
         }
         await Users.updateOne({
             _id:userId
