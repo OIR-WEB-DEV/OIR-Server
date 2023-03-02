@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "postinstall": "npm i @vercel/node-bridge",
     "dev": "nodemon index.js"
   },
   "author": "",
