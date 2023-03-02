@@ -1,2 +1,2 @@
 # OIR-Server
-Office of International Relationships backend application
+Office of International Relations backend application
