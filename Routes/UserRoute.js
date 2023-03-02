@@ -4,6 +4,6 @@ const router = require("express").Router();
 
 router.route("/login").post(login);
 router.route("/register").post(register);
-router.route("/verifyUser/:userId").get(verifyUser);
+router.route("/verifyUser/:userId").post(verifyUser);
 
 module.exports = router;
