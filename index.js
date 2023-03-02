@@ -7,11 +7,11 @@ const userRoutes = require('./Routes/UserRoute')
 const port = process.env.REACT_APP_PORT;
 const app = express();
 
-connectDB();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
+connectDB();
 
 app.use('/api/v1',userRoutes);
 app.get("/", (req, res) => {
