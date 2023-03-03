@@ -60,6 +60,7 @@ exports.login = async (req, res, next) => {
         }
         const token = getJwtToken(user._id);
         const response ={
+            id:user._id,
             firstName:user.firstName,
             lastName:user.lastName,
             email:user.email,
@@ -93,6 +94,33 @@ exports.verifyUser = async (req, res, next) => {
         return res.status(200).json(success("User verified", {id:user._id}))
 
     } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
+
+exports.sendOTP = async (req, res, next) => {
+    try {
+        const {userId} = req.params;
+
+        const user = await Users.findOne({_id:userId})
+        const generatedOTP = generateOTP(6);
+        await VerificationCode.updateOne(
+            {
+                user: userId
+            }
+            ,{
+            code: generatedOTP
+        })
+
+        const isEmailSent = await sendMail({ email:user.email, firstName:user.firstName }, "Here is your OTP to verify your account: " + generatedOTP, "Successfully register on OIR")
+        if (isEmailSent === null) {
+            return res.status(200).json(success("Student is register successfully but we are facing some email issue.", { id: userId }))
+        }
+
+        return res.status(200).json(success("OTP is send successfullt", {id: userId}))
+
+    } catch (error) {
+        console.log(error)
         res.status(400).json({ error: true, message: error.message });
     }
 }
