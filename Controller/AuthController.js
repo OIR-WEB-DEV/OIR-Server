@@ -145,10 +145,10 @@ exports.forgotPassword=async(req,res,next)=>{
             return res.status(400).json({ error: true, message: "Invalid data" });
         }
         const salt = await bcrypt.genSalt(10);
-        const hashpassword = await bcrypt.hash(this.password, salt);
+        const hashpassword = await bcrypt.hash(newPassword, salt);
         await Users.updateOne({_id:userId},{password:hashpassword})
 
-        return res.status(200).json(success("Password is succesfully changed",{id:user._id}));
+        return res.status(200).json(success("Password is succesfully changed",{id:userId}));
 
     } catch (error) {
         res.status(400).json({ error: true, message: error.message });
