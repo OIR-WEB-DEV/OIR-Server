@@ -97,7 +97,6 @@ exports.verifyUser = async (req, res, next) => {
         res.status(400).json({ error: true, message: error.message });
     }
 }
-
 exports.sendOTP = async (req, res, next) => {
     try {
         const {userId} = req.params;
@@ -120,7 +119,38 @@ exports.sendOTP = async (req, res, next) => {
         return res.status(200).json(success("OTP is send successfullt", {id: userId}))
 
     } catch (error) {
-        console.log(error)
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
+exports.forgotPasswordUserVerify=async(req,res,next)=>{
+    try {
+        const {email}=req.body;
+        const user = await Users.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: true, message: "User doesn't exist" });
+        }
+        if(!user.verified){
+            return res.status(400).json({ error: true, message: "User is not verified" });
+        }
+        return res.status(200).json(success("sucess",{id:user._id}));
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
+exports.forgotPassword=async(req,res,next)=>{
+    try {
+        const {userId} = req.params;
+        const {newPassword,rePassword}=req.body;
+        if(!newPassword || !rePassword){
+            return res.status(400).json({ error: true, message: "Invalid data" });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashpassword = await bcrypt.hash(this.password, salt);
+        await Users.updateOne({_id:userId},{password:hashpassword})
+
+        return res.status(200).json(success("Password is succesfully changed",{id:user._id}));
+
+    } catch (error) {
         res.status(400).json({ error: true, message: error.message });
     }
 }
