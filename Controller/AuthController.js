@@ -91,9 +91,10 @@ exports.verifyUser = async (req, res, next) => {
         },{
             verified:true
         })
-        return res.status(200).json(success("User verified", {id:user._id}))
+        return res.status(200).json(success("User verified", {id:userId}))
 
     } catch (error) {
+        console.log(error)
         res.status(400).json({ error: true, message: error.message });
     }
 }
