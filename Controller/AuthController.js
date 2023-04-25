@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const VerificationCode = require("../Model/VerificationCode")
 const sendMail = require("../Services/EmailServices");
 const getJwtToken = require("../Helper/GetJwtToken");
+const sendContactMail = require("../Services/ContactUsService");
 
 
 exports.register = async (req, res, next) => {
@@ -165,3 +166,23 @@ exports.forgotPassword=async(req,res,next)=>{
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.contactUs=async(req,res,next)=>{
+    try {
+        const {name ,email ,contact,message}=req.body;
+        if(!name || !email || ! contact || !message ){
+            return res.status(400).json({ error: true, message: "Invalid data" });
+        }
+
+        const isEmailSent = await sendContactMail(name,email,contact,"Message From : " +name)
+        if (isEmailSent === null) {
+            return res.status(200).json(success("we are facing some email issue."))
+        }
+        return res.status(200).json(success("Message is sent succesfully"));
+
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
+
+
