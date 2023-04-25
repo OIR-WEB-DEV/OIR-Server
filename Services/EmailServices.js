@@ -20,7 +20,7 @@ const mailOption =(user,subject,message)=> {
   };
 }
 
-const sendMail=async(user,message,subject)=>{
+const sendContactMail=async(user,message,subject)=>{
     try{
       const info = await transporter.sendMail(mailOption(user,subject,message));
       return info.messageId;
@@ -28,4 +28,4 @@ const sendMail=async(user,message,subject)=>{
       return null
     }
 }
-module.exports = sendMail;
+module.exports = sendContactMail;
