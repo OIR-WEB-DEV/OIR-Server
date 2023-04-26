@@ -174,7 +174,7 @@ exports.contactUs=async(req,res,next)=>{
             return res.status(400).json({ error: true, message: "Invalid data" });
         }
 
-        const isEmailSent = await sendContactMail(name,email,contact,"Message From : " +name)
+        const isEmailSent = await sendContactMail(name,email,contact,message,"Message From : " +name)
         if (isEmailSent === null) {
             return res.status(200).json(success("we are facing some email issue."))
         }
