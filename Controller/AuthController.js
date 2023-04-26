@@ -46,7 +46,7 @@ exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({ error: true, message: "Please provide all requied fields" });
+            return res.status(400).json({ error: true, message: "Please provide all required fields" });
         }
         const user = await Users.findOne({ email });
         if (!user) {
@@ -57,7 +57,7 @@ exports.login = async (req, res, next) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ error: true, message: "Invalide Credentials" });
+            return res.status(400).json({ error: true, message: "invalid Credentials" });
         }
         const token = getJwtToken(user._id);
         const response ={
@@ -81,11 +81,11 @@ exports.verifyUser = async (req, res, next) => {
         const {userId} = req.params;
         const {code} = req.body;
         if(!userId || !code){
-            return res.status(400).json({ error: true, message: "Invalide" });
+            return res.status(400).json({ error: true, message: "invalid" });
         }
         const verificationCode = await VerificationCode.findOne({user:userId});
         if(verificationCode.code !== code){
-            return res.status(400).json({ error: true, message: "Invalide Verification Code" });
+            return res.status(400).json({ error: true, message: "invalid Verification Code" });
         }
         await Users.updateOne({
             _id:userId
@@ -118,7 +118,7 @@ exports.sendOTP = async (req, res, next) => {
             return res.status(200).json(success("Student is register successfully but we are facing some email issue.", { id: userId }))
         }
 
-        return res.status(200).json(success("OTP is send successfullt", {id: userId}))
+        return res.status(200).json(success("OTP is send successfully", {id: userId}))
 
     } catch (error) {
         res.status(400).json({ error: true, message: error.message });
