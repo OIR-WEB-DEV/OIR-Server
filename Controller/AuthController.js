@@ -34,6 +34,7 @@ exports.register = async (req, res, next) => {
         })
 
         const isEmailSent = await sendMail({ email, firstName }, "Here is your OTP to verify your account: " + generatedOTP, "Successfully register on OIR")
+        console.log("sdfs",isEmailSent)
         if (isEmailSent === null) {
             return res.status(200).json(success("Student is register successfully but we are facing some email issue.", { id: user._id }))
         }
