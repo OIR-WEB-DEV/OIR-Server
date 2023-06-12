@@ -18,7 +18,7 @@ const mailOption =(user,subject,message)=> {
     to: user.email,
     subject: subject,
     // text: `Hi,${user.firstName}\n \t\t ${message}\n\n Regards,\n OIR Team`
-    text: OTPtemplete(`Hi,${user.firstName}\n \t\t ${message}`)
+    html: OTPtemplete(`Hi,${user.firstName}\n \t\t ${message}`)
   };
 }
 
